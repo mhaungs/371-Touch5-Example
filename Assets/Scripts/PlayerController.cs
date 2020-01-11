@@ -15,4 +15,9 @@ public class PlayerController : MonoBehaviour
 
         transform.Translate(translation * Time.deltaTime * speed);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy(other.gameObject);
+    }
 }
