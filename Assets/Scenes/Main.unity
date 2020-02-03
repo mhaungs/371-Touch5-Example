@@ -332,6 +332,11 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5980277903236053521, guid: 879c86f25e6496a4e94aa92d102b8eaa,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 879c86f25e6496a4e94aa92d102b8eaa, type: 3}
 --- !u!4 &512421430 stripped
@@ -965,7 +970,6 @@ GameObject:
   - component: {fileID: 1455664694}
   - component: {fileID: 1455664693}
   - component: {fileID: 1455664692}
-  - component: {fileID: 1455664696}
   - component: {fileID: 1455664698}
   - component: {fileID: 1455664697}
   m_Layer: 0
@@ -1050,19 +1054,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1455664696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1455664691}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93c5a64c8ba819843a37d30582a9aa71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 1
 --- !u!114 &1455664697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1264,6 +1255,11 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5980277903236053521, guid: 879c86f25e6496a4e94aa92d102b8eaa,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 879c86f25e6496a4e94aa92d102b8eaa, type: 3}
 --- !u!4 &1606625668 stripped
@@ -1384,6 +1380,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5980277903236053521, guid: 879c86f25e6496a4e94aa92d102b8eaa,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 879c86f25e6496a4e94aa92d102b8eaa, type: 3}
@@ -1579,7 +1580,7 @@ PrefabInstance:
     - target: {fileID: 1776085082775759759, guid: 99247c5382d1779429e64c8216180001,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 8
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 1776085083657018080, guid: 99247c5382d1779429e64c8216180001,
         type: 3}
@@ -1646,20 +1647,40 @@ PrefabInstance:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4589832481863414250, guid: 99247c5382d1779429e64c8216180001,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 5358119070951773872, guid: 99247c5382d1779429e64c8216180001,
         type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5358119070951773872, guid: 99247c5382d1779429e64c8216180001,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 5358119071108773798, guid: 99247c5382d1779429e64c8216180001,
         type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5358119071108773798, guid: 99247c5382d1779429e64c8216180001,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 5358119071481754925, guid: 99247c5382d1779429e64c8216180001,
         type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5358119071481754925, guid: 99247c5382d1779429e64c8216180001,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 7092845041332653258, guid: 99247c5382d1779429e64c8216180001,
         type: 3}
@@ -1772,7 +1793,7 @@ PrefabInstance:
     - target: {fileID: -6851448963233994320, guid: 06db85468be9d924d81718777a6bd755,
         type: 3}
       propertyPath: m_Carve
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8796627757549968326, guid: 06db85468be9d924d81718777a6bd755,
         type: 3}

@@ -10,15 +10,13 @@ public class Patroller : MonoBehaviour
     public Transform eye;
 
     private NavMeshAgent agent;
-    private Vector3 lastKnownPosition;
     private bool patrolling = false;
     private int destPoint = 0;
-    private bool arrived = false;
+    private IEnumerator coroutine;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        lastKnownPosition = transform.position;
     }
 
     void Update()
@@ -29,15 +27,8 @@ public class Patroller : MonoBehaviour
         {
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                if (!arrived)
-                {
-                    arrived = true;
-                    StartCoroutine("GoToNextPoint");
-                }
-            }
-            else
-            {
-                arrived = false;
+                coroutine = GoToNextPoint(1);
+                StartCoroutine(coroutine);
             }
         }
 
@@ -50,17 +41,13 @@ public class Patroller : MonoBehaviour
         {
             if( !patrolling )
             {
-                agent.SetDestination(lastKnownPosition);
-                if( agent.remainingDistance <= agent.stoppingDistance )
-                {
-                    patrolling = true;
-                    StartCoroutine("GoToNextPoint");
-                }
+                coroutine = GoToNextPoint(0);
+                StartCoroutine(coroutine);
             }
         }
     }
 
-    IEnumerator GoToNextPoint()
+    IEnumerator GoToNextPoint(int next)
     {
         if( patrolTargets.Length == 0 )
         {
@@ -69,11 +56,11 @@ public class Patroller : MonoBehaviour
         }
 
         patrolling = true;
-        yield return new WaitForSeconds(2f);
-        arrived = false;
+        destPoint = (destPoint + next) % patrolTargets.Length;
         agent.destination = patrolTargets[destPoint].position;
-        destPoint = (destPoint + 1) % patrolTargets.Length;
-
+        agent.isStopped = true;
+        yield return new WaitForSeconds(2f);
+        agent.isStopped = false;
     }
 
     private bool CanSeeTarget()
@@ -85,7 +72,6 @@ public class Patroller : MonoBehaviour
         if( Physics.Raycast(ray, out hit) )
         {
             canSee = hit.transform == target;
-            if (canSee) lastKnownPosition = target.transform.position;
         }
 
         return canSee;
