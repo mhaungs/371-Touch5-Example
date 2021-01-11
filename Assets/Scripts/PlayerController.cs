@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 10f;
+    [SerializeField] float speed = 10f;
 
     // Update is called once per frame
     void Update()
@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
         transform.Translate(translation * Time.deltaTime * speed);
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         Destroy(other.gameObject);
     }
