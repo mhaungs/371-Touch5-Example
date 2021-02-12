@@ -23,15 +23,6 @@ public class Patroller : MonoBehaviour
     {
         if (agent.pathPending ) return;  // Don't continue if still figuring out path
 
-        if( patrolling )
-        {
-            if (agent.remainingDistance <= agent.stoppingDistance)
-            {
-                coroutine = GoToNextPoint(1);
-                StartCoroutine(coroutine);
-            }
-        }
-
         if( CanSeeTarget() )
         {
             agent.SetDestination(target.transform.position);
@@ -39,12 +30,21 @@ public class Patroller : MonoBehaviour
         }
         else
         {
-            if( !patrolling )
+            if( patrolling )
+            {
+                if (agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    coroutine = GoToNextPoint(1);
+                    StartCoroutine(coroutine);
+                }
+            }            
+            else
             {
                 coroutine = GoToNextPoint(0);
                 StartCoroutine(coroutine);
             }
         }
+
     }
 
     IEnumerator GoToNextPoint(int next)
