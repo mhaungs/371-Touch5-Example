@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+enum PatrollerStates
+{
+    patrolling,
+    lost,
+    chasing
+}
+
 public class Patroller : MonoBehaviour
 {
     public Transform[] patrolTargets;
@@ -10,9 +17,9 @@ public class Patroller : MonoBehaviour
     public Transform eye;
 
     private NavMeshAgent agent;
-    private bool patrolling = false;
     private int destPoint = 0;
     private IEnumerator coroutine;
+    private PatrollerStates _currentState = PatrollerStates.patrolling;
 
     void Start()
     {
@@ -23,28 +30,38 @@ public class Patroller : MonoBehaviour
     {
         if (agent.pathPending ) return;  // Don't continue if still figuring out path
 
-        if( CanSeeTarget() )
+        switch(_currentState )
         {
-            agent.SetDestination(target.transform.position);
-            patrolling = false;
-        }
-        else
-        {
-            if( patrolling )
-            {
-                if (agent.remainingDistance <= agent.stoppingDistance)
+            case PatrollerStates.patrolling:
+                if( CanSeeTarget() )
                 {
-                    coroutine = GoToNextPoint(1);
-                    StartCoroutine(coroutine);
+                    _currentState = PatrollerStates.chasing;
                 }
-            }            
-            else
-            {
+                else
+                {
+                    if (agent.remainingDistance <= agent.stoppingDistance)
+                    {
+                        coroutine = GoToNextPoint(1);
+                        StartCoroutine(coroutine);
+                    } 
+                }
+                break;
+            case PatrollerStates.lost:
                 coroutine = GoToNextPoint(0);
                 StartCoroutine(coroutine);
-            }
+                _currentState = PatrollerStates.patrolling;
+                break;
+            case PatrollerStates.chasing:
+                if( CanSeeTarget() )
+                {
+                    agent.SetDestination(target.transform.position);
+                }
+                else
+                {
+                    _currentState = PatrollerStates.lost;
+                }
+                break;
         }
-
     }
 
     IEnumerator GoToNextPoint(int next)
@@ -55,7 +72,6 @@ public class Patroller : MonoBehaviour
             yield break;
         }
 
-        patrolling = true;
         destPoint = (destPoint + next) % patrolTargets.Length;
         agent.destination = patrolTargets[destPoint].position;
         agent.isStopped = true;
