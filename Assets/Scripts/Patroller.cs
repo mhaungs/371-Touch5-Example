@@ -1,13 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 enum PatrollerStates
 {
-    patrolling,
-    lost,
-    chasing
+    Patrolling,
+    Lost,
+    Chasing
 }
 
 public class Patroller : MonoBehaviour
@@ -16,49 +15,49 @@ public class Patroller : MonoBehaviour
     public Transform target;
     public Transform eye;
 
-    private NavMeshAgent agent;
-    private int destPoint = 0;
-    private IEnumerator coroutine;
-    private PatrollerStates _currentState = PatrollerStates.patrolling;
+    NavMeshAgent _agent;
+    int _destPoint = 0;
+    IEnumerator _coroutine;
+    PatrollerStates _currentState = PatrollerStates.Patrolling;
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+        _agent = GetComponent<NavMeshAgent>();
     }
 
     void Update()
     {
-        if (agent.pathPending ) return;  // Don't continue if still figuring out path
+        if (_agent.pathPending ) return;  // Don't continue if still figuring out path
 
         switch(_currentState )
         {
-            case PatrollerStates.patrolling:
+            case PatrollerStates.Patrolling:
                 if( CanSeeTarget() )
                 {
-                    _currentState = PatrollerStates.chasing;
+                    _currentState = PatrollerStates.Chasing;
                 }
                 else
                 {
-                    if (agent.remainingDistance <= agent.stoppingDistance)
+                    if (_agent.remainingDistance <= _agent.stoppingDistance)
                     {
-                        coroutine = GoToNextPoint(1);
-                        StartCoroutine(coroutine);
+                        _coroutine = GoToNextPoint(1);
+                        StartCoroutine(_coroutine);
                     } 
                 }
                 break;
-            case PatrollerStates.lost:
-                coroutine = GoToNextPoint(0);
-                StartCoroutine(coroutine);
-                _currentState = PatrollerStates.patrolling;
+            case PatrollerStates.Lost:
+                _coroutine = GoToNextPoint(0);
+                StartCoroutine(_coroutine);
+                _currentState = PatrollerStates.Patrolling;
                 break;
-            case PatrollerStates.chasing:
+            case PatrollerStates.Chasing:
                 if( CanSeeTarget() )
                 {
-                    agent.SetDestination(target.transform.position);
+                    _agent.SetDestination(target.transform.position);
                 }
                 else
                 {
-                    _currentState = PatrollerStates.lost;
+                    _currentState = PatrollerStates.Lost;
                 }
                 break;
         }
@@ -72,14 +71,14 @@ public class Patroller : MonoBehaviour
             yield break;
         }
 
-        destPoint = (destPoint + next) % patrolTargets.Length;
-        agent.destination = patrolTargets[destPoint].position;
-        agent.isStopped = true;
+        _destPoint = (_destPoint + next) % patrolTargets.Length;
+        _agent.destination = patrolTargets[_destPoint].position;
+        _agent.isStopped = true;
         yield return new WaitForSeconds(2f);
-        agent.isStopped = false;
+        _agent.isStopped = false;
     }
 
-    private bool CanSeeTarget()
+    bool CanSeeTarget()
     {
         bool canSee = false;
         Ray ray = new Ray(eye.position, target.transform.position - eye.position);

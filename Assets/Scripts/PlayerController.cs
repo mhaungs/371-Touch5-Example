@@ -1,19 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float speed = 10f;
 
-    // Update is called once per frame
+    Vector3 _translation;
+    Rigidbody rgbd;
+
+    void Awake()
+    {
+        rgbd = GetComponent<Rigidbody>();
+    }
+
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-        Vector3 translation = new Vector3(horizontalInput, 0, verticalInput);
+        _translation = new Vector3(horizontalInput, 0, verticalInput);
+        _translation = _translation.normalized;  // so moving diagonally is not faster
+    }
 
-        transform.Translate(translation * Time.deltaTime * speed);
+    void FixedUpdate()
+    {
+        rgbd.MovePosition(transform.position + _translation  * Time.deltaTime * speed);
     }
 
     void OnTriggerEnter(Collider other)
