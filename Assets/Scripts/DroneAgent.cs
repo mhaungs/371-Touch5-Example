@@ -3,17 +3,17 @@ using UnityEngine.AI;
 
 public class DroneAgent : MonoBehaviour
 {
-    public Transform target;
+    [SerializeField] Transform target;
     
-    NavMeshAgent agent;
+    NavMeshAgent _agent;
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
+        _agent = GetComponent<NavMeshAgent>();
     }
 
     void Update()
     {
-        agent.SetDestination(target.position);
+        _agent.SetDestination(target.position);
     }
 }

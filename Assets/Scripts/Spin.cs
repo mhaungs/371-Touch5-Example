@@ -2,17 +2,12 @@
 
 public class Spin : MonoBehaviour
 {
-    public float speed = 2f;
+    [SerializeField] float rotationPerSec;
+
+    const float degreesPerRotation = 360;
     
-    Vector3 _ySpin = new Vector3(0, 1, 0);
-
-    void Start()
-    {
-        _ySpin *= speed;
-    }
-
     void Update()
     {
-        transform.Rotate(_ySpin);
+        transform.Rotate(Vector3.up * degreesPerRotation * rotationPerSec * Time.deltaTime);
     }
 }

@@ -72,7 +72,7 @@ public class Patroller : MonoBehaviour
         }
 
         _destPoint = (_destPoint + next) % patrolTargets.Length;
-        _agent.destination = patrolTargets[_destPoint].position;
+        _agent.SetDestination(patrolTargets[_destPoint].position);
         _agent.isStopped = true;
         yield return new WaitForSeconds(2f);
         _agent.isStopped = false;
