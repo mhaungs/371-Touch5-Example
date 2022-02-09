@@ -2,6 +2,10 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+// Transition State Diagram:
+// Initial State: Patrolling
+// Patrolling -> Chasing -> Lost -> Patrolling
+
 enum PatrollerStates
 {
     Patrolling,
