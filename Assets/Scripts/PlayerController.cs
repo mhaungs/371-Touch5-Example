@@ -5,30 +5,30 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] float speed = 10f;
 
+    // Components
+    Rigidbody _rgbd;
+    
     // Input
-    PlayerInput _playerInput;
     InputAction _moveAction;
+    Vector2 _moveInput;
 
     Vector3 _translation;
-    Rigidbody rgbd;
 
     void Awake()
     {
-        PlayerInput _playerInput = GetComponent<PlayerInput>();
-        _moveAction = _playerInput.actions["Movement"];
-
-        rgbd = GetComponent<Rigidbody>();
+        _moveAction = InputSystem.actions.FindAction("Movement");
+        _rgbd = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        Vector2 moveInput = _moveAction.ReadValue<Vector2>();
-        _translation = new Vector3(moveInput.x, 0, moveInput.y);
+        _moveInput = _moveAction.ReadValue<Vector2>();
+        _translation = new Vector3(_moveInput.x, 0, _moveInput.y);
     }
 
     void FixedUpdate()
     {
-        rgbd.MovePosition(transform.position + _translation * Time.deltaTime * speed);
+        _rgbd.MovePosition(transform.position + Time.deltaTime * speed * _translation);
     }
 
     void OnTriggerEnter(Collider other)

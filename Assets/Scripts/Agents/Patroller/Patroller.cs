@@ -44,13 +44,13 @@ public class Patroller : MonoBehaviour
                 {
                     if (_agent.remainingDistance <= _agent.stoppingDistance)
                     {
-                        _coroutine = GoToNextPoint(1);
+                        _coroutine = GoToNextPoint();
                         StartCoroutine(_coroutine);
                     } 
                 }
                 break;
             case PatrollerStates.Lost:
-                _coroutine = GoToNextPoint(0);
+                _coroutine = GoToNextPoint();
                 StartCoroutine(_coroutine);
                 _currentState = PatrollerStates.Patrolling;
                 break;
@@ -67,13 +67,15 @@ public class Patroller : MonoBehaviour
         }
     }
 
-    IEnumerator GoToNextPoint(int next)
+    IEnumerator GoToNextPoint()
     {
         if( patrolTargets.Length == 0 )
         {
             // We have no patrol points so quit
             yield break;
         }
+        
+        int next = _currentState == PatrollerStates.Patrolling ? 1 : 0;
 
         _destPoint = (_destPoint + next) % patrolTargets.Length;
         _agent.SetDestination(patrolTargets[_destPoint].position);
