@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     // Input
     InputAction _moveAction;
     Vector2 _moveInput;
-
     Vector3 _translation;
 
     void Awake()

@@ -13,27 +13,44 @@ enum PatrollerStates
     Chasing
 }
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class Patroller : MonoBehaviour
 {
-    public Transform[] patrolTargets;
-    public Transform target;
-    public Transform eye;
+    [SerializeField] private Transform[] _patrolTargets;
+    [SerializeField] private Transform _target;
+    [SerializeField] private Transform _eye;
 
-    NavMeshAgent _agent;
-    int _destPoint = 0;
-    IEnumerator _coroutine;
-    PatrollerStates _currentState = PatrollerStates.Patrolling;
+    private NavMeshAgent _agent;
+    private int _destPoint = 0;
+    private PatrollerStates _currentState = PatrollerStates.Patrolling;
+    private bool _isWaitingAtWaypoint = false;
 
-    void Start()
+    private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
     }
 
-    void Update()
+    private void Start()
     {
-        if (_agent.pathPending ) return;  // Don't continue if still figuring out path
+        if (_patrolTargets == null || _patrolTargets.Length == 0 || _patrolTargets[0] == null)
+            return;
 
-        switch(_currentState )
+        _agent.SetDestination(_patrolTargets[_destPoint].position);
+    }
+
+    private void Update()
+    {
+        if (_agent.pathPending)
+        {
+            return;  // Don't continue if still figuring out path
+        }
+
+        if(_isWaitingAtWaypoint)
+        {
+            return;
+        }
+
+        switch (_currentState )
         {
             case PatrollerStates.Patrolling:
                 if( CanSeeTarget() )
@@ -44,20 +61,18 @@ public class Patroller : MonoBehaviour
                 {
                     if (_agent.remainingDistance <= _agent.stoppingDistance)
                     {
-                        _coroutine = GoToNextPoint();
-                        StartCoroutine(_coroutine);
+                        StartCoroutine(GoToNextPoint(true));
                     } 
                 }
                 break;
             case PatrollerStates.Lost:
-                _coroutine = GoToNextPoint();
-                StartCoroutine(_coroutine);
+                StartCoroutine(GoToNextPoint(false));
                 _currentState = PatrollerStates.Patrolling;
                 break;
             case PatrollerStates.Chasing:
                 if( CanSeeTarget() )
                 {
-                    _agent.SetDestination(target.transform.position);
+                    _agent.SetDestination(_target.transform.position);
                 }
                 else
                 {
@@ -67,32 +82,43 @@ public class Patroller : MonoBehaviour
         }
     }
 
-    IEnumerator GoToNextPoint()
+    private IEnumerator GoToNextPoint(bool advanceToNext)
     {
-        if( patrolTargets.Length == 0 )
+        Debug.Log("GotoNextPoint Cooroutine called.");
+        if ( _patrolTargets.Length == 0 )
         {
             // We have no patrol points so quit
             yield break;
         }
         
-        int next = _currentState == PatrollerStates.Patrolling ? 1 : 0;
+        //int next = _currentState == PatrollerStates.Patrolling ? 1 : 0;
+        int next = advanceToNext ? 1 : 0;
 
-        _destPoint = (_destPoint + next) % patrolTargets.Length;
-        _agent.SetDestination(patrolTargets[_destPoint].position);
+        _destPoint = (_destPoint + next) % _patrolTargets.Length;
+        _agent.SetDestination(_patrolTargets[_destPoint].position);
         _agent.isStopped = true;
+        _isWaitingAtWaypoint = true;
         yield return new WaitForSeconds(2f);
+        _isWaitingAtWaypoint = false;
         _agent.isStopped = false;
     }
 
-    bool CanSeeTarget()
+    private bool CanSeeTarget()
     {
-        bool canSee = false;
-        Ray ray = new Ray(eye.position, target.transform.position - eye.position);
-        RaycastHit hit;
-
-        if( Physics.Raycast(ray, out hit) )
+        if(_target == null || _eye == null)
         {
-            canSee = hit.transform == target;
+            return false;
+        }
+
+        Vector3 direction = _target.transform.position - _eye.position;
+        float distance = direction.magnitude;
+
+        bool canSee = false;
+        Ray ray = new Ray(_eye.position, direction.normalized);
+
+        if( Physics.Raycast(ray, out RaycastHit hit, distance) )
+        {
+            canSee = hit.transform == _target;
         }
 
         return canSee;

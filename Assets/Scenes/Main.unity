@@ -639,7 +639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e77710a4159a094d87bec8ba1e9e4f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1648412409}
+  _target: {fileID: 1648412409}
 --- !u!195 &543083992
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -789,7 +789,7 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   m_Enabled: 1
-  serializedVersion: 12
+  serializedVersion: 13
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 0.8
@@ -841,7 +841,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
-  m_ShadowRadius: 0
+  m_ShapeRadius: 0
   m_ShadowAngle: 0
   m_LightUnit: 1
   m_LuxAtDistance: 1
@@ -1376,20 +1376,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455664691}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4c9dee41599904f89a8d7fa06e0589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolTargets:
+  _patrolTargets:
   - {fileID: 113881997}
   - {fileID: 1056906404}
   - {fileID: 1695563915}
   - {fileID: 155831974}
   - {fileID: 1861687188}
   - {fileID: 1206509934}
-  target: {fileID: 1648412409}
-  eye: {fileID: 580857736}
+  _target: {fileID: 1648412409}
+  _eye: {fileID: 580857736}
 --- !u!195 &1455664698
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1419,7 +1419,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455664691}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00de941f2aeda0442a9420f6ce8383f8, type: 3}
   m_Name: 
